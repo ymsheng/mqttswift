@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "MqttSwift"
-  s.version      = "0.0.2"
+  s.version      = "0.0.3"
   s.summary      = "mqtt write by swift. Contains connect manager and message send status."
 
   # This description is used to generate tags and improve search results.
@@ -80,7 +80,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/ymsheng/mqttswift.git", :tag => "0.0.2" }
+  s.source       = { :git => "https://github.com/ymsheng/mqttswift.git", :tag => "0.0.3" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
