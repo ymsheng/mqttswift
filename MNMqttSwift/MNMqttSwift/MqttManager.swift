@@ -128,7 +128,7 @@ public class MqttManager:NSObject,MQTTSessionDelegate {
                     weakSelf?.mqttClient.deallocSession()
                     if weakSelf?.mqttClient != nil && weakSelf?.connectType == .MQTTManagerConnectTypeDisconnect {
                         weakSelf?.connectType = .MQTTManagerConnectTypeIng
-                        //WARNINT:theApp.isLanuchFirst = NO;
+                        
                         weakSelf?.mqttClient .connectToHost(MQTT_HOST, port: MQTT_PORT)
                     }
                 })
