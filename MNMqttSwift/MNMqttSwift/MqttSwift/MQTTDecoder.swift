@@ -75,7 +75,6 @@ class MQTTDecoder: NSObject, NSStreamDelegate {
         case NSStreamEvent.OpenCompleted:
             self.status = .MQTTDecoderStatusDecodingHeader
         case NSStreamEvent.HasBytesAvailable:
-            DLog("1")
             if self.status == .MQTTDecoderStatusDecodingHeader {
                 var buffer:UInt8 = 0
                 var readByte = [UInt8](count: 1, repeatedValue: 0)
@@ -83,13 +82,11 @@ class MQTTDecoder: NSObject, NSStreamDelegate {
                 buffer = readByte[0]
                 self.header = buffer
                 if n == -1 {
-                    DLog("1 - 1")
                     self.status = .MQTTDecoderStatusConnectionError
                     self.delegate?.decodeHandleEvent(self, eventCode: .MQTTDecoderEventConnectionError)
                     return
                 }
                 else if n == 1 {
-                    DLog("2")
                     self.length = 0
                     self.lengthMultiplier = 1
                     self.status = .MQTTDecoderStatusDecodingLength
@@ -110,7 +107,7 @@ class MQTTDecoder: NSObject, NSStreamDelegate {
                 } else if n==0 {
                     break
                 }
-                DLog("3＝＝＝\(digit)")
+
                 let digitNum = Int(digit & 0x7f)
                 
                 self.length += digitNum * self.lengthMultiplier
@@ -150,10 +147,9 @@ class MQTTDecoder: NSObject, NSStreamDelegate {
                         self.dataBuffer?.appendBytes(&buffer, length: n)
                     }
                 }
-                DLog("---lenght=\(self.length), bufferlenght=\(self.dataBuffer!.length)")
-                DLog("5")
+              
                 if self.dataBuffer?.length == self.length {
-                    DLog("5-1")
+
                     let type:UInt8 = (self.header >> 4) & 0x0f
                     let qos:UInt8 = (self.header >> 1) & 0x03
                     var isDuplicate:Bool = false

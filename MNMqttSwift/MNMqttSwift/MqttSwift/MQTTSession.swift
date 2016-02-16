@@ -8,6 +8,12 @@
 
 import Foundation
 
+enum SendStatus: Int{
+    case SendStatusIng = 0
+    case SendStatusFinish
+    case SendStatusFailed
+}
+
 enum MQTTSessionStatus {
     case MQTTSessionStatusCreated
     case MQTTSessionStatusConnecting

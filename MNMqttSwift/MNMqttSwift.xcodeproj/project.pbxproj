@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0320CE841C72CC7D00EDD07F /* MqttManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0320CE831C72CC7D00EDD07F /* MqttManager.swift */; };
 		03C154301C71FFDF0070B69B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C1542F1C71FFDF0070B69B /* AppDelegate.swift */; };
 		03C154321C71FFDF0070B69B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C154311C71FFDF0070B69B /* ViewController.swift */; };
 		03C154351C71FFDF0070B69B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03C154331C71FFDF0070B69B /* Main.storyboard */; };
@@ -14,13 +15,13 @@
 		03C1543A1C71FFDF0070B69B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03C154381C71FFDF0070B69B /* LaunchScreen.storyboard */; };
 		03C154481C7200690070B69B /* MQTTDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C154421C7200690070B69B /* MQTTDecoder.swift */; };
 		03C154491C7200690070B69B /* MQTTEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C154431C7200690070B69B /* MQTTEncoder.swift */; };
-		03C1544A1C7200690070B69B /* MqttManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C154441C7200690070B69B /* MqttManager.swift */; };
 		03C1544B1C7200690070B69B /* MQTTMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C154451C7200690070B69B /* MQTTMessage.swift */; };
 		03C1544C1C7200690070B69B /* MQTTSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C154461C7200690070B69B /* MQTTSession.swift */; };
 		03C1544D1C7200690070B69B /* MQTTTxFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C154471C7200690070B69B /* MQTTTxFlow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0320CE831C72CC7D00EDD07F /* MqttManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MqttManager.swift; sourceTree = "<group>"; };
 		03C1542C1C71FFDF0070B69B /* MNMqttSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MNMqttSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		03C1542F1C71FFDF0070B69B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		03C154311C71FFDF0070B69B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -30,7 +31,6 @@
 		03C1543B1C71FFDF0070B69B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		03C154421C7200690070B69B /* MQTTDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MQTTDecoder.swift; sourceTree = "<group>"; };
 		03C154431C7200690070B69B /* MQTTEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MQTTEncoder.swift; sourceTree = "<group>"; };
-		03C154441C7200690070B69B /* MqttManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MqttManager.swift; sourceTree = "<group>"; };
 		03C154451C7200690070B69B /* MQTTMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MQTTMessage.swift; sourceTree = "<group>"; };
 		03C154461C7200690070B69B /* MQTTSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MQTTSession.swift; sourceTree = "<group>"; };
 		03C154471C7200690070B69B /* MQTTTxFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MQTTTxFlow.swift; sourceTree = "<group>"; };
@@ -69,6 +69,7 @@
 				03C154411C7200690070B69B /* MqttSwift */,
 				03C1542F1C71FFDF0070B69B /* AppDelegate.swift */,
 				03C154311C71FFDF0070B69B /* ViewController.swift */,
+				0320CE831C72CC7D00EDD07F /* MqttManager.swift */,
 				03C154331C71FFDF0070B69B /* Main.storyboard */,
 				03C154361C71FFDF0070B69B /* Assets.xcassets */,
 				03C154381C71FFDF0070B69B /* LaunchScreen.storyboard */,
@@ -80,7 +81,6 @@
 		03C154411C7200690070B69B /* MqttSwift */ = {
 			isa = PBXGroup;
 			children = (
-				03C154441C7200690070B69B /* MqttManager.swift */,
 				03C154421C7200690070B69B /* MQTTDecoder.swift */,
 				03C154431C7200690070B69B /* MQTTEncoder.swift */,
 				03C154451C7200690070B69B /* MQTTMessage.swift */,
@@ -166,9 +166,9 @@
 				03C1544B1C7200690070B69B /* MQTTMessage.swift in Sources */,
 				03C154481C7200690070B69B /* MQTTDecoder.swift in Sources */,
 				03C154491C7200690070B69B /* MQTTEncoder.swift in Sources */,
+				0320CE841C72CC7D00EDD07F /* MqttManager.swift in Sources */,
 				03C1544D1C7200690070B69B /* MQTTTxFlow.swift in Sources */,
 				03C154301C71FFDF0070B69B /* AppDelegate.swift in Sources */,
-				03C1544A1C7200690070B69B /* MqttManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,6 +316,7 @@
 				03C154401C71FFDF0070B69B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
