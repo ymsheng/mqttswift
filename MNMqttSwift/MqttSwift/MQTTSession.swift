@@ -606,6 +606,7 @@ typealias messageBlock = (NSData,String) -> Void
         if self.idleTimer >= self.keepAliveInterval {
             if self.encoder?.status == MQTTEncoderStatus.MQTTEncoderStatusReady {
                 self.encoder?.encodeMessage(MQTTMessage.pingreqMessage())
+                self.idleTimer = 0
             }
         }
         self.ticks++

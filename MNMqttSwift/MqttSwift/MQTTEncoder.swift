@@ -128,7 +128,7 @@ class MQTTEncoder : NSObject,NSStreamDelegate{
             header |= 0x01
         }
         
-        self.buffer?.appendBytes(&header, length: 1)
+        self.buffer!.appendBytes(&header, length: 1)
         
         if let data = msg.data {
             length = data.length
@@ -140,11 +140,11 @@ class MQTTEncoder : NSObject,NSStreamDelegate{
             if length > 0 {
                 digit |= 0x08
             }
-            self.buffer?.appendBytes(&digit, length: 1)
+            self.buffer!.appendBytes(&digit, length: 1)
         } while (length > 0)
         
         if let data = msg.data {
-            self.buffer?.appendData(data)
+            self.buffer!.appendData(data)
         }
         
         if self.stream!.hasSpaceAvailable {

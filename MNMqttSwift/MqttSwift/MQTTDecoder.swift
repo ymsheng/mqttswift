@@ -111,6 +111,7 @@ class MQTTDecoder: NSObject, NSStreamDelegate {
                 let digitNum = Int(digit & 0x7f)
                 
                 self.length += digitNum * self.lengthMultiplier
+             
                 if (digit & 0x80) == 0x00 {
                     self.dataBuffer = NSMutableData.init(capacity: self.length)
                     self.status = .MQTTDecoderStatusDecodingData
@@ -141,6 +142,9 @@ class MQTTDecoder: NSObject, NSStreamDelegate {
                     if n == -1 {
                         self.status = .MQTTDecoderStatusConnectionError
                         self.delegate?.decodeHandleEvent(self, eventCode: .MQTTDecoderEventConnectionError)
+                        self.length = 0
+                        self.dataBuffer = nil
+                        self.lengthMultiplier = 1
                         return
                     }
                     else {

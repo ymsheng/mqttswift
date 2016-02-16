@@ -16,8 +16,8 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "MqttSwift"
-  s.version      = "0.0.1"
-  s.summary      = "mqtt write by swift. Demo contain connect manager."
+  s.version      = "0.0.2"
+  s.summary      = "mqtt write by swift. Contains connect manager and message send status."
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
@@ -25,8 +25,8 @@ Pod::Spec.new do |s|
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
   s.description  = <<-DESC
-                   mqtt from IBM for im. this version learn from mqtt by obj-c.
-				   DESC
+                   an swift native MQTT Framework http://mqtt.org.learn from ckrey.this guy's obj-c version used in boss zhipin.
+		   DESC
 				   
   s.homepage     = "https://github.com/ymsheng/mqttswift"
   # s.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
@@ -80,7 +80,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/ymsheng/mqttswift.git", :tag => "0.0.1" }
+  s.source       = { :git => "https://github.com/ymsheng/mqttswift.git", :tag => "0.0.2" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -91,7 +91,7 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "MNMqttSwift/MNMqttSwift/MqttSwift/*.swift"
+  s.source_files  = "MNMqttSwift/MqttSwift/*.swift"
   s.exclude_files = "Classes/Exclude"
 
   # s.public_header_files = "Classes/**/*.h"
