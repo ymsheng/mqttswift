@@ -107,7 +107,7 @@ class MQTTDecoder: NSObject, NSStreamDelegate {
                 } else if n==0 {
                     break
                 }
-
+                
                 let digitNum = Int(digit & 0x7f)
                 
                 self.length += digitNum * self.lengthMultiplier
@@ -127,15 +127,15 @@ class MQTTDecoder: NSObject, NSStreamDelegate {
                 if self.length > 0 {
                     var n:Int = 0
                     var toRead:Int = 0
-                   
+                    
                     if self.dataBuffer != nil {
                         toRead = self.length - self.dataBuffer!.length
                     }
                     else{
                         toRead = self.length
                     }
-                 
-                     var buffer = [UInt8](count: toRead, repeatedValue: 0)
+                    
+                    var buffer = [UInt8](count: toRead, repeatedValue: 0)
                     
                     n = (self.stream?.read(&buffer, maxLength: toRead))!
                     if n == -1 {
@@ -147,9 +147,9 @@ class MQTTDecoder: NSObject, NSStreamDelegate {
                         self.dataBuffer?.appendBytes(&buffer, length: n)
                     }
                 }
-              
+                
                 if self.dataBuffer?.length == self.length {
-
+                    
                     let type:UInt8 = (self.header >> 4) & 0x0f
                     let qos:UInt8 = (self.header >> 1) & 0x03
                     var isDuplicate:Bool = false

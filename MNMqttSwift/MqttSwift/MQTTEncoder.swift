@@ -137,8 +137,8 @@ class MQTTEncoder : NSObject,NSStreamDelegate{
         repeat {
             var digit:Int = length % 128
             length /= 128
-        if length > 0 {
-            digit |= 0x08
+            if length > 0 {
+                digit |= 0x08
             }
             self.buffer?.appendBytes(&digit, length: 1)
         } while (length > 0)

@@ -93,7 +93,7 @@ public class MqttManager:NSObject,MQTTSessionDelegate {
     
     
     //MARK: - delegate
-    func sessionHandleEvent(session:MQTTSession, eventCode:MQTTSessionEvent) {
+    public func sessionHandleEvent(session:MQTTSession, eventCode:MQTTSessionEvent) {
         if self.isConnected != (eventCode == .MQTTSessionEventConnected) {
             self.isConnected = (eventCode == .MQTTSessionEventConnected) 
         }
@@ -138,7 +138,7 @@ public class MqttManager:NSObject,MQTTSessionDelegate {
             self.connectType = .MQTTManagerConnectTypeDisconnect
         }
     }
-    func sessionNewMessageOnTopic(session:MQTTSession, data:NSData, topic:String) {
+    public func sessionNewMessageOnTopic(session:MQTTSession, data:NSData, topic:String) {
         let queue:dispatch_queue_t = dispatch_queue_create("SaveRecMessageList", nil)
         dispatch_async(queue) { () -> Void in
             print(NSString(data:data, encoding:NSUTF8StringEncoding) )
@@ -146,14 +146,14 @@ public class MqttManager:NSObject,MQTTSessionDelegate {
     }
     
     ///消息发送后状态的回调SendStatus，mid是发送消息体的自己生成的唯一标识，参考sendMQTTMessage方法中的mid
-    func sessionCompletionMidWithStatus(session:MQTTSession, mid:Double, status:SendStatus) {
+    public func sessionCompletionMidWithStatus(session:MQTTSession, mid:Double, status:SendStatus) {
         if floor(mid) == PRESENCE_MID && status == .SendStatusFailed {
             //self.sendPresence()
         }else {
             //WARNING:更新数据库
         }
-    }
-    func sessionCompletionIndex(session:MQTTSession, index:String) {
+     }
+   public func sessionCompletionIndex(session:MQTTSession, index:String) {
         //WARNING:更新数据库
         //[[MessageReadHandler sharedReadMessageHandler] setReadSuccess:Index];
     }

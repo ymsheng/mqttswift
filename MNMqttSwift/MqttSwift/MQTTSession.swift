@@ -30,10 +30,10 @@ import Foundation
 }
 
 @objc public protocol MQTTSessionDelegate {
-   optional func sessionHandleEvent(session:MQTTSession, eventCode:MQTTSessionEvent)
-   optional func sessionNewMessageOnTopic(session:MQTTSession, data:NSData, topic:String)
-   optional func sessionCompletionMidWithStatus(session:MQTTSession, mid:Double, status:SendStatus)
-   optional func sessionCompletionIndex(session:MQTTSession, index:String)
+    optional func sessionHandleEvent(session:MQTTSession, eventCode:MQTTSessionEvent)
+    optional func sessionNewMessageOnTopic(session:MQTTSession, data:NSData, topic:String)
+    optional func sessionCompletionMidWithStatus(session:MQTTSession, mid:Double, status:SendStatus)
+    optional func sessionCompletionIndex(session:MQTTSession, index:String)
 }
 
 typealias eventBlock = (MQTTSessionEvent) -> Void
@@ -466,7 +466,7 @@ typealias messageBlock = (NSData,String) -> Void
         let high = Int(i[0])
         let low = Int(i[1])
         let msgId:Int = 256*high+low
-
+        
         if msgId == 0 {
             return
         }
@@ -495,7 +495,7 @@ typealias messageBlock = (NSData,String) -> Void
         let high = Int(i[0])
         let low = Int(i[1])
         let msgId:Int = 256*high+low
-
+        
         if msgId == 0 {
             return
         }
