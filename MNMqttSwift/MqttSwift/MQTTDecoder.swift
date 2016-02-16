@@ -117,7 +117,7 @@ class MQTTDecoder: NSObject, NSStreamDelegate {
                 }
                 else {
                     self.lengthMultiplier *= 128
-                    if self.lengthMultiplier > 128*128*128 {
+                    if self.lengthMultiplier > 128*128 {
                         break
                     }
                 }

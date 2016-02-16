@@ -8,20 +8,20 @@
 
 import Foundation
 
-enum SendStatus: Int{
+@objc public enum SendStatus: Int{
     case SendStatusIng = 0
-    case SendStatusFinish
-    case SendStatusFailed
+    case SendStatusFinish = 1
+    case SendStatusFailed = 2
 }
 
-enum MQTTSessionStatus {
+@objc public enum MQTTSessionStatus:Int {
     case MQTTSessionStatusCreated
     case MQTTSessionStatusConnecting
     case MQTTSessionStatusConnected
     case MQTTSessionStatusError
 }
 
-public enum MQTTSessionEvent {
+@objc public enum MQTTSessionEvent: Int {
     case MQTTSessionEventConnected
     case MQTTSessionEventConnectionRefused
     case MQTTSessionEventConnectionClosed
@@ -29,19 +29,19 @@ public enum MQTTSessionEvent {
     case MQTTSessionEventProtocolError
 }
 
-protocol MQTTSessionDelegate {
-    func sessionHandleEvent(session:MQTTSession, eventCode:MQTTSessionEvent)
-    func sessionNewMessageOnTopic(session:MQTTSession, data:NSData, topic:String)
-    func sessionCompletionMidWithStatus(session:MQTTSession, mid:Double, status:SendStatus)
-    func sessionCompletionIndex(session:MQTTSession, index:String)
+@objc public protocol MQTTSessionDelegate {
+   optional func sessionHandleEvent(session:MQTTSession, eventCode:MQTTSessionEvent)
+   optional func sessionNewMessageOnTopic(session:MQTTSession, data:NSData, topic:String)
+   optional func sessionCompletionMidWithStatus(session:MQTTSession, mid:Double, status:SendStatus)
+   optional func sessionCompletionIndex(session:MQTTSession, index:String)
 }
 
 typealias eventBlock = (MQTTSessionEvent) -> Void
 typealias messageBlock = (NSData,String) -> Void
 
-class MQTTSession : NSObject, MQTTDecoderDelegate,MQTTEncoderDelegate {
+@objc public class MQTTSession : NSObject, MQTTDecoderDelegate,MQTTEncoderDelegate {
     var flightFlag:Bool = true ///flight window
-    var delegate:MQTTSessionDelegate?
+    public var delegate:MQTTSessionDelegate?
     var status:MQTTSessionStatus!
     var clientId:String!
     var keepAliveInterval:Int!
@@ -66,7 +66,7 @@ class MQTTSession : NSObject, MQTTDecoderDelegate,MQTTEncoderDelegate {
     var connectHandler:eventBlock?
     var messageHandler:messageBlock?
     
-    init(theClientId:String, theUserName:String, thePassword:String, theKeepAliveInterval:Int, theCleanSessionFlag:Bool) {
+    public init(theClientId:String, theUserName:String, thePassword:String, theKeepAliveInterval:Int, theCleanSessionFlag:Bool) {
         
         let msg:MQTTMessage = MQTTMessage.connectMessageWithClientId(theClientId, userName: theUserName, password: thePassword, keepAlive: theKeepAliveInterval, cleanSessionFlag: theCleanSessionFlag)
         
@@ -86,7 +86,7 @@ class MQTTSession : NSObject, MQTTDecoderDelegate,MQTTEncoderDelegate {
     }
     
     //MARK: - deinit
-    func deallocSession() {
+    public func deallocSession() {
         if self.timer != nil {
             self.timer?.invalidate()
             self.timer = nil
@@ -95,7 +95,7 @@ class MQTTSession : NSObject, MQTTDecoderDelegate,MQTTEncoderDelegate {
             for key in self.txFlows {
                 if Int(key.key as! NSNumber) > 0 {
                     if self.msgMidDict.objectForKey(key.key)?.doubleValue > 0 {
-                        self.delegate?.sessionCompletionMidWithStatus(self, mid: (self.msgMidDict.objectForKey(key.key)?.doubleValue)!, status: SendStatus.SendStatusFailed)
+                        self.delegate?.sessionCompletionMidWithStatus?(self, mid: (self.msgMidDict.objectForKey(key.key)?.doubleValue)!, status: SendStatus.SendStatusFailed)
                     }
                 }
             }
@@ -116,14 +116,14 @@ class MQTTSession : NSObject, MQTTDecoderDelegate,MQTTEncoderDelegate {
         self.decoder = nil
     }
     
-    func close() {
+    public func close() {
         self.deallocSession()
         self.error(.MQTTSessionEventConnectionClosed)
     }
     
     
     //MARK: - connect
-    func connectToHost(ip:String, port:Int) {
+    public func connectToHost(ip:String, port:Int) {
         for _ in 1...60 {
             self.timerRing.addObject(NSMutableSet())
         }
@@ -157,19 +157,19 @@ class MQTTSession : NSObject, MQTTDecoderDelegate,MQTTEncoderDelegate {
     }
     
     //MARK: - subscritpin
-    func subscribeTopic(theTopic:String, qosLevel:Int) {
+    public func subscribeTopic(theTopic:String, qosLevel:Int) {
         send(MQTTMessage.subscribeMessageWithMessageId(nextMsgId(), topic: theTopic, qos: qosLevel))
     }
-    func unsubscribeTopic(theTopic:String) {
+    public func unsubscribeTopic(theTopic:String) {
         send(MQTTMessage.unsubscribeMessageWithMessageId(nextMsgId(), topic: theTopic))
     }
     
-    func publishDataExactlyOnce(data:NSData, topic:String, retainFlag:Bool, mid:Double = 0, indexStr:String = "") {
+    public func publishDataExactlyOnce(data:NSData, topic:String, retainFlag:Bool, mid:Double = 0, indexStr:String = "") {
         
         if self.encoder == nil || self.encoder?.status == MQTTEncoderStatus.MQTTEncoderStatusEndEncountered ||
             self.encoder?.status == MQTTEncoderStatus.MQTTEncoderStatusError ||
             self.encoder?.status == MQTTEncoderStatus.MQTTEncoderStatusInitializing {
-                self.delegate?.sessionCompletionMidWithStatus(self, mid: mid, status: .SendStatusFailed)
+                self.delegate?.sessionCompletionMidWithStatus?(self, mid: mid, status: .SendStatusFailed)
                 return
         }
         
@@ -260,7 +260,7 @@ class MQTTSession : NSObject, MQTTDecoderDelegate,MQTTEncoderDelegate {
             if mid > 0 {
                 if self.msgMidDict.objectForKey(NSNumber(double: mid)) as! Double > 0 {
                     if self.delegate != nil {
-                        self.delegate?.sessionCompletionMidWithStatus(self, mid: mid, status: .SendStatusFailed)
+                        self.delegate?.sessionCompletionMidWithStatus?(self, mid: mid, status: .SendStatusFailed)
                         return true
                     }
                 }
@@ -306,7 +306,7 @@ class MQTTSession : NSObject, MQTTDecoderDelegate,MQTTEncoderDelegate {
         usleep(500000)
         
         if self.delegate != nil {
-            self.delegate?.sessionHandleEvent(self, eventCode: eventCode)
+            self.delegate?.sessionHandleEvent?(self, eventCode: eventCode)
         }
         
         if let exsitBlock = self.connectHandler {
@@ -339,7 +339,7 @@ class MQTTSession : NSObject, MQTTDecoderDelegate,MQTTEncoderDelegate {
         }
         var i = [UInt8](count: 2, repeatedValue: 0)
         data.getBytes(&i, length: 2)
-        let high = Int(i[0]) * 256
+        let high = Int(i[0])
         let low = Int(i[1])
         let topicLength:Int = 256*high+low
         if data.length < 2+topicLength {
@@ -353,7 +353,7 @@ class MQTTSession : NSObject, MQTTDecoderDelegate,MQTTEncoderDelegate {
         
         if msg.qos == 0 {
             if self.delegate != nil {
-                self.delegate?.sessionNewMessageOnTopic(self, data:data, topic: topic)
+                self.delegate?.sessionNewMessageOnTopic?(self, data:data, topic: topic)
             }
             if self.messageHandler != nil {
                 self.messageHandler!(data,topic)
@@ -366,7 +366,7 @@ class MQTTSession : NSObject, MQTTDecoderDelegate,MQTTEncoderDelegate {
             
             var i = [UInt8](count: 2, repeatedValue: 0)
             data.getBytes(&i, length: 2)
-            let high = Int(i[0]) * 256
+            let high = Int(i[0])
             let low = Int(i[1])
             let msgId:Int = 256*high+low
             if msgId == 0 {
@@ -375,7 +375,7 @@ class MQTTSession : NSObject, MQTTDecoderDelegate,MQTTEncoderDelegate {
             data = data.subdataWithRange(NSMakeRange(2, data.length-2))
             if msg.qos == 1 {
                 if self.delegate != nil {
-                    self.delegate?.sessionNewMessageOnTopic(self, data: data, topic: topic)
+                    self.delegate?.sessionNewMessageOnTopic?(self, data: data, topic: topic)
                 }
                 if self.messageHandler != nil {
                     self.messageHandler!(data,topic)
@@ -398,7 +398,7 @@ class MQTTSession : NSObject, MQTTDecoderDelegate,MQTTEncoderDelegate {
         }
         var i = [UInt8](count: 2, repeatedValue: 0)
         msg.data!.getBytes(&i, length: 2)
-        let high = Int(i[0]) * 256
+        let high = Int(i[0])
         let low = Int(i[1])
         let msgId:Int = 256*high+low
         if msgId == 0 {
@@ -426,7 +426,7 @@ class MQTTSession : NSObject, MQTTDecoderDelegate,MQTTEncoderDelegate {
         
         var i = [UInt8](count: 2, repeatedValue: 0)
         msg.data!.getBytes(&i, length: 2)
-        let high = Int(i[0]) * 256
+        let high = Int(i[0])
         let low = Int(i[1])
         let msgId:Int = 256*high+low
         if msgId == 0 {
@@ -463,7 +463,7 @@ class MQTTSession : NSObject, MQTTDecoderDelegate,MQTTEncoderDelegate {
         
         var i = [UInt8](count: 2, repeatedValue: 0)
         msg.data!.getBytes(&i, length: 2)
-        let high = Int(i[0]) * 256
+        let high = Int(i[0])
         let low = Int(i[1])
         let msgId:Int = 256*high+low
 
@@ -473,7 +473,7 @@ class MQTTSession : NSObject, MQTTDecoderDelegate,MQTTEncoderDelegate {
         
         if let dict:NSDictionary = self.rxFlows.objectForKey(NSNumber(long: msgId)) as? NSDictionary {
             if self.delegate != nil {
-                self.delegate?.sessionNewMessageOnTopic(self, data: dict.objectForKey("data") as! NSData, topic: dict.objectForKey("topic") as! String)
+                self.delegate?.sessionNewMessageOnTopic?(self, data: dict.objectForKey("data") as! NSData, topic: dict.objectForKey("topic") as! String)
             }
             if self.messageHandler != nil {
                 self.messageHandler!(dict.objectForKey("data") as! NSData,dict.objectForKey("topic") as! String)
@@ -492,7 +492,7 @@ class MQTTSession : NSObject, MQTTDecoderDelegate,MQTTEncoderDelegate {
         
         var i = [UInt8](count: 2, repeatedValue: 0)
         msg.data!.getBytes(&i, length: 2)
-        let high = Int(i[0]) * 256
+        let high = Int(i[0])
         let low = Int(i[1])
         let msgId:Int = 256*high+low
 
@@ -520,7 +520,7 @@ class MQTTSession : NSObject, MQTTDecoderDelegate,MQTTEncoderDelegate {
     func pubcomFinish(msg:MQTTMessage){
         var i = [UInt8](count: 2, repeatedValue: 0)
         msg.data!.getBytes(&i, length: 2)
-        let high = Int(i[0]) * 256
+        let high = Int(i[0])
         let low = Int(i[1])
         let mid:Int = 256*high+low
         
@@ -530,12 +530,12 @@ class MQTTSession : NSObject, MQTTDecoderDelegate,MQTTEncoderDelegate {
             let sendIndexId = self.msgIndexDict.objectForKey(NSNumber(long: mid)) as? Double
             if sendMsgId > 0 {
                 if self.delegate != nil {
-                    self.delegate?.sessionCompletionMidWithStatus(self, mid: sendMsgId!, status: .SendStatusFinish)
+                    self.delegate?.sessionCompletionMidWithStatus?(self, mid: sendMsgId!, status: .SendStatusFinish)
                 }
             }
             else if sendIndexId > 0 {
                 if self.delegate != nil {
-                    self.delegate?.sessionCompletionIndex(self, index: "\(sendIndexId)")
+                    self.delegate?.sessionCompletionIndex?(self, index: "\(sendIndexId)")
                 }
             }
             
@@ -579,7 +579,7 @@ class MQTTSession : NSObject, MQTTDecoderDelegate,MQTTEncoderDelegate {
                             }
                             self.flightFlag = true
                             if self.delegate != nil {
-                                self.delegate?.sessionHandleEvent(self, eventCode: .MQTTSessionEventConnected)
+                                self.delegate?.sessionHandleEvent?(self, eventCode: .MQTTSessionEventConnected)
                             }
                             
                             self.runLoop.addTimer(self.timer!, forMode: self.runLoopMode)
