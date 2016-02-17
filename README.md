@@ -4,9 +4,12 @@ MQTT（Message Queuing Telemetry Transport，消息队列遥测传输）是IBM�
 我们在开发聊天的时间可以通过实现此协议完成相关功能。相对其他swift版本，MqttSwift增加了消息发送是否成功的回调方法，并且聊天窗口个数是1.以下给出了调用的单例模式。
 ## 使用说明：
 1.参考MqttManager.swift
-let MQTT_PORT:Int = 2345  //chat server port 聊天服务器的端口
-let MQTT_HOST:String = "192.168.1.166"// "your chat ip" 聊天服务器的地址
-self.mqttClient = MQTTSession(theClientId: "your clinetId", theUserName:"user name", thePassword:"user password", theKeepAliveInterval: 40, theCleanSessionFlag: true) //心跳包40s发一次
+##### let MQTT_PORT:Int = 2345  //chat server port 聊天服务器的端口 
+
+##### let MQTT_HOST:String = "192.168.1.166"// "your chat ip" 聊天服务器的地址  
+
+##### self.mqttClient = MQTTSession(theClientId: "your clinetId", theUserName:"user name", thePassword:"user password", theKeepAliveInterval: 40, theCleanSessionFlag: true) //心跳包40s发一次  
+
 
 2.把用户名和密码设置后，调用 MqttManager.sharedInstance.connectMQTT() 即可进行连接服务器，包括了设置用户名和密码
 
