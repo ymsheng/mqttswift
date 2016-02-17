@@ -28,9 +28,9 @@ self.mqttClient = MQTTSession(theClientId: "your clinetId", theUserName:"user na
 ###1.直接下载源码，把MNMqttSwift中的5个文件添加到工程中，参考MqttManager.swift中的实现进行连接测试。
 ###2.CocoaPods安装
  1.在Podfile 中添加:
-      platform :ios, "8.0"
-      use_frameworks!
-      pod 'MqttSwift', '~> 0.0.3'
+     platform :ios, "8.0"
+     use_frameworks!
+     pod 'MqttSwift', '~> 0.0.3'
 
  2.执行 pod install 或 pod update
 
